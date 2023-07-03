@@ -48,14 +48,14 @@ class MyHomePage extends ConsumerWidget {
               ref.watch(descriptionProvider),
             ),
             Text(
-              '$_counter',
+              ref.watch(countProvider).toString(),
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => ref.watch(countProvider.notifier).state++,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
