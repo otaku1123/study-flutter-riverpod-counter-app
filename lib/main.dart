@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_app/provider.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
@@ -35,14 +36,16 @@ class MyHomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(
+          ref.watch(titleProvider),
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Text(
+              ref.watch(descriptionProvider),
             ),
             Text(
               '$_counter',
