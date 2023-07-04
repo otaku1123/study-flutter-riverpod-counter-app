@@ -47,6 +47,13 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
     _viewModel = widget.viewModel;
     _viewModel.setRef(ref);
+    _viewModel.init();
+  }
+
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    super.dispose();
   }
 
   @override

@@ -15,6 +15,14 @@ class ViewModel {
     _ref = ref;
   }
 
+  void init() {
+    _soundLogic.init();
+  }
+
+  void dispose() {
+    _soundLogic.dispose();
+  }
+
   get count => _ref.watch(countDataProvider).count.toString();
   get countUp => _ref.watch(countDataProvider).countUp.toString();
   get countDown => _ref.watch(countDataProvider).countDown.toString();
@@ -39,7 +47,6 @@ class ViewModel {
     _ref.read(countDataProvider.notifier).state = _logic.countData;
     CountData newData = _ref.read(countDataProvider);
 
-    _soundLogic.playResetSound();
     _soundLogic.dataChanged(oldData, newData);
   }
 }

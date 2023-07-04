@@ -9,6 +9,14 @@ class SoundLogic {
 
   final audioPlayer = AudioPlayer();
 
+  void init() {
+    audioPlayer.setReleaseMode(ReleaseMode.release);
+  }
+
+  void dispose() {
+    audioPlayer.dispose();
+  }
+
   void dataChanged(CountData oldData, CountData newData) {
     if (oldData.count < newData.count) {
       playUpSound();
@@ -21,15 +29,27 @@ class SoundLogic {
     }
   }
 
-  void playUpSound() {
-    audioPlayer.play(AssetSource(SOUND_DATA_UP));
+  void playUpSound() async {
+    try {
+      await audioPlayer.play(AssetSource(SOUND_DATA_UP));
+    } catch (e) {
+      print(e);
+    }
   }
 
-  void playDownSound() {
-    audioPlayer.play(AssetSource(SOUND_DATA_DOWN));
+  void playDownSound() async {
+    try {
+      await audioPlayer.play(AssetSource(SOUND_DATA_DOWN));
+    } catch (e) {
+      print(e);
+    }
   }
 
-  void playResetSound() {
-    audioPlayer.play(AssetSource(SOUND_DATA_RESET));
+  void playResetSound() async {
+    try {
+      await audioPlayer.play(AssetSource(SOUND_DATA_RESET));
+    } catch (e) {
+      print(e);
+    }
   }
 }
