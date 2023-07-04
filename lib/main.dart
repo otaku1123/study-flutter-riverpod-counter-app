@@ -93,10 +93,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
                     _viewModel.onDecrease();
                   },
                   tooltip: 'Decrement',
-                  child: ScaleTransition(
-                    scale: _viewModel.animationPlus,
-                    child: const Icon(CupertinoIcons.minus),
-                  ),
+                  child: const Icon(CupertinoIcons.minus),
                 ),
               ],
             ),

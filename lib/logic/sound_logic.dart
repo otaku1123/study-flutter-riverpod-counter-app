@@ -1,8 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 
 import '../data/count_data.dart';
+import 'count_data_changed_notifier.dart';
 
-class SoundLogic {
+class SoundLogic extends CountDataChangedNotifier {
   static const SOUND_DATA_UP = 'sounds/sound1.mp3';
   static const SOUND_DATA_DOWN = 'sounds/sound2.mp3';
   static const SOUND_DATA_RESET = 'sounds/sound3.mp3';
@@ -17,6 +18,7 @@ class SoundLogic {
     audioPlayer.dispose();
   }
 
+  @override
   void dataChanged(CountData oldData, CountData newData) {
     if (newData.countUp == 0 && newData.countDown == 0) {
       playResetSound();

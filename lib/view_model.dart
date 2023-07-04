@@ -6,6 +6,8 @@ import 'package:riverpod_app/logic/logic.dart';
 import 'package:riverpod_app/provider.dart';
 import 'package:riverpod_app/logic/sound_logic.dart';
 
+import 'logic/count_data_changed_notifier.dart';
+
 class ViewModel {
   final Logic _logic = Logic();
 
@@ -14,11 +16,18 @@ class ViewModel {
 
   late WidgetRef _ref;
 
+  List<CountDataChangedNotifier> notifiers = [];
+
   void init(WidgetRef ref, TickerProvider tickerProvider) {
     _ref = ref;
 
     _buttonAnimationLogicPlus = ButtonAnimationLogic(tickerProvider);
     _soundLogic.init();
+
+    notifiers = [
+      _buttonAnimationLogicPlus,
+      _soundLogic,
+    ];
   }
 
   void dispose() {
@@ -33,7 +42,6 @@ class ViewModel {
 
   void onIncrease() {
     _logic.increase();
-    _buttonAnimationLogicPlus.start();
     update();
   }
 
@@ -52,6 +60,8 @@ class ViewModel {
     _ref.read(countDataProvider.notifier).state = _logic.countData;
     CountData newData = _ref.read(countDataProvider);
 
-    _soundLogic.dataChanged(oldData, newData);
+    for (var notifier in notifiers) {
+      notifier.dataChanged(oldData, newData);
+    }
   }
 }

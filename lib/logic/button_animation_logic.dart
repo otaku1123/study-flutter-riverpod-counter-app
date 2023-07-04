@@ -1,6 +1,9 @@
 import 'package:flutter/animation.dart';
 
-class ButtonAnimationLogic {
+import '../data/count_data.dart';
+import 'count_data_changed_notifier.dart';
+
+class ButtonAnimationLogic extends CountDataChangedNotifier {
   late AnimationController _animationController;
   late Animation<double> _animationScale;
   get animationScale => _animationScale;
@@ -25,5 +28,14 @@ class ButtonAnimationLogic {
     _animationController
         .forward()
         .whenComplete(() => _animationController.reset());
+  }
+
+  @override
+  void dataChanged(CountData oldData, CountData newData) {
+    if (oldData.count >= newData.count) {
+      return;
+    }
+
+    start();
   }
 }
