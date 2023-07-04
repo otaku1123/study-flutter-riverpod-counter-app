@@ -3,6 +3,7 @@ import 'package:flutter/animation.dart';
 class ButtonAnimationLogic {
   late AnimationController _animationController;
   late Animation<double> _animationScale;
+  get animationScale => _animationScale;
 
   ButtonAnimationLogic(TickerProvider tickerProvider) {
     _animationController = AnimationController(
