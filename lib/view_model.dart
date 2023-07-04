@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_app/data/count_data.dart';
 import 'package:riverpod_app/logic.dart';
 import 'package:riverpod_app/provider.dart';
 import 'package:riverpod_app/sound_logic.dart';
 
 class ViewModel {
-  Logic _logic = Logic();
+  final Logic _logic = Logic();
 
-  SoundLogic _soundLogic = SoundLogic();
+  final SoundLogic _soundLogic = SoundLogic();
 
   late WidgetRef _ref;
 
@@ -20,22 +21,25 @@ class ViewModel {
 
   void onIncrease() {
     _logic.increase();
-
-    _ref.read(countDataProvider.notifier).state = _logic.countData;
-    _soundLogic.playUpSound();
+    update();
   }
 
   void onDecrease() {
     _logic.decrease();
-
-    _ref.read(countDataProvider.notifier).state = _logic.countData;
-    _soundLogic.playDownSound();
+    update();
   }
 
   void onReset() {
     _logic.reset();
+    update();
+  }
 
+  void update() {
+    CountData oldData = _ref.read(countDataProvider);
     _ref.read(countDataProvider.notifier).state = _logic.countData;
+    CountData newData = _ref.read(countDataProvider);
+
     _soundLogic.playResetSound();
+    _soundLogic.dataChanged(oldData, newData);
   }
 }
