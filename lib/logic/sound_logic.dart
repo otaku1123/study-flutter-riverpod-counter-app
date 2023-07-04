@@ -18,12 +18,12 @@ class SoundLogic {
   }
 
   void dataChanged(CountData oldData, CountData newData) {
-    if (oldData.count < newData.count) {
+    if (newData.countUp == 0 && newData.countDown == 0) {
+      playResetSound();
+    } else if (oldData.count < newData.count) {
       playUpSound();
     } else if (oldData.count > newData.count) {
       playDownSound();
-    } else if(newData.countUp == 0 && newData.countDown == 0) {
-      playResetSound();
     } else {
       // invalid path
     }
