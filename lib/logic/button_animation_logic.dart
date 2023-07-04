@@ -9,8 +9,11 @@ class ButtonAnimationLogic extends CountDataChangedNotifier {
   late Animation<double> _animationScale;
   late Animation<double> _animationRotation;
 
+  late AnimationCombination _animationCombination;
+
   get animationScale => _animationScale;
   get animationRotation => _animationRotation;
+  get animationCombination => _animationCombination;
 
   ValueChangedCondition startCondition;
 
@@ -35,6 +38,11 @@ class ButtonAnimationLogic extends CountDataChangedNotifier {
           ),
         )
         .drive(Tween(begin: 0.0, end: 1.0));
+
+    _animationCombination = AnimationCombination(
+      _animationScale,
+      _animationRotation,
+    );
   }
 
   @override
@@ -61,4 +69,14 @@ class ButtonRotateCurve extends Curve {
   double transform(double t) {
     return math.sin(t);
   }
+}
+
+class AnimationCombination {
+  final Animation<double> animationScale;
+  final Animation<double> animationRotation;
+
+  AnimationCombination(
+    this.animationScale,
+    this.animationRotation,
+  );
 }
