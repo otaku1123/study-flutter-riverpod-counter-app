@@ -106,7 +106,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           _viewModel.onReset();
         },
         tooltip: 'Increment',
-        child: const Icon(Icons.refresh),
+        child: const Icon(CupertinoIcons.refresh),
       ),
     );
   }
