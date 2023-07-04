@@ -59,7 +59,7 @@ class MyHomePage extends StatelessWidget {
       floatingActionButton: Consumer(
         builder: (context, ref, child) {
           return FloatingActionButton(
-            onPressed: () => ref.watch(countProvider.notifier).state++,
+            onPressed: () => ref.read(countProvider.notifier).state++,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           );
