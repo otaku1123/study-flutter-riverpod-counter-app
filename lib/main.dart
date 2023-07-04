@@ -66,24 +66,14 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               children: [
                 FloatingActionButton(
                   onPressed: () {
-                    CountData data = ref.read(countDataProvider);
-
-                    ref.read(countDataProvider.notifier).state = data.copyWith(
-                      count: data.count + 1,
-                      countUp: data.countUp + 1,
-                    );
+                    _viewModel.onIncrease();
                   },
                   tooltip: 'Increment',
                   child: const Icon(CupertinoIcons.plus),
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    CountData data = ref.read(countDataProvider);
-
-                    ref.read(countDataProvider.notifier).state = data.copyWith(
-                      count: data.count - 1,
-                      countDown: data.countDown + 1,
-                    );
+                    _viewModel.onDecrease();
                   },
                   tooltip: 'Decrement',
                   child: const Icon(CupertinoIcons.minus),
@@ -106,8 +96,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(countDataProvider.notifier).state =
-              CountData(count: 0, countUp: 0, countDown: 0);
+          _viewModel.onReset();
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
