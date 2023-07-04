@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_app/provider.dart';
+import 'package:riverpod_app/view_model.dart';
 
 import 'data/count_data.dart';
 
@@ -32,6 +33,15 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
+  ViewModel _viewModel = ViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _viewModel.setRef(ref);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +58,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               ref.watch(descriptionProvider),
             ),
             Text(
-              ref.watch(countDataProvider).count.toString(),
+              _viewModel.count,
               style: Theme.of(context).textTheme.headline4,
             ),
             Row(
@@ -84,15 +94,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  ref
-                      .watch(countDataProvider.select((value) => value.countUp))
-                      .toString(),
+                  _viewModel.countUp,
                 ),
                 Text(
-                  ref
-                      .watch(
-                          countDataProvider.select((value) => value.countDown))
-                      .toString(),
+                  _viewModel.countDown,
                 ),
               ],
             ),
