@@ -8,7 +8,9 @@ class ButtonAnimationLogic extends CountDataChangedNotifier {
   late Animation<double> _animationScale;
   get animationScale => _animationScale;
 
-  ButtonAnimationLogic(TickerProvider tickerProvider) {
+  ValueChangedCondition startCondition;
+
+  ButtonAnimationLogic(TickerProvider tickerProvider, this.startCondition) {
     _animationController = AnimationController(
       vsync: tickerProvider,
       duration: const Duration(milliseconds: 500),
@@ -32,10 +34,8 @@ class ButtonAnimationLogic extends CountDataChangedNotifier {
 
   @override
   void dataChanged(CountData oldData, CountData newData) {
-    if (oldData.count >= newData.count) {
-      return;
+    if (startCondition(oldData, newData)) {
+      start();
     }
-
-    start();
   }
 }

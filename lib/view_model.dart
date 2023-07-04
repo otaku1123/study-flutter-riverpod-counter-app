@@ -13,6 +13,8 @@ class ViewModel {
 
   final SoundLogic _soundLogic = SoundLogic();
   late ButtonAnimationLogic _buttonAnimationLogicPlus;
+  late ButtonAnimationLogic _buttonAnimationLogicMinus;
+  late ButtonAnimationLogic _buttonAnimationLogicReset;
 
   late WidgetRef _ref;
 
@@ -21,12 +23,26 @@ class ViewModel {
   void init(WidgetRef ref, TickerProvider tickerProvider) {
     _ref = ref;
 
-    _buttonAnimationLogicPlus = ButtonAnimationLogic(tickerProvider);
+    conditionPlus(CountData oldData, CountData newData) {
+      return oldData.count < newData.count;
+    }
+    conditionMinus(CountData oldData, CountData newData) {
+      return oldData.count > newData.count;
+    }
+    conditionReset(CountData oldData, CountData newData) {
+      return newData.countUp ==0 && newData.countDown == 0;
+    }
+
+    _buttonAnimationLogicPlus = ButtonAnimationLogic(tickerProvider, conditionPlus);
+    _buttonAnimationLogicMinus = ButtonAnimationLogic(tickerProvider, conditionMinus);
+    _buttonAnimationLogicReset = ButtonAnimationLogic(tickerProvider, conditionReset);
     _soundLogic.init();
 
     notifiers = [
-      _buttonAnimationLogicPlus,
       _soundLogic,
+      _buttonAnimationLogicPlus,
+      _buttonAnimationLogicMinus,
+      _buttonAnimationLogicReset,
     ];
   }
 
@@ -39,6 +55,8 @@ class ViewModel {
   get countDown => _ref.watch(countDataProvider).countDown.toString();
 
   get animationPlus => _buttonAnimationLogicPlus.animationScale;
+  get animationMinus => _buttonAnimationLogicMinus.animationScale;
+  get animationReset => _buttonAnimationLogicReset.animationScale;
 
   void onIncrease() {
     _logic.increase();
