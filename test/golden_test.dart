@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:riverpod/src/framework.dart';
 import 'package:riverpod_app/main.dart';
+import 'package:riverpod_app/provider.dart';
 import 'package:riverpod_app/view_model.dart';
 
 class MockViewModel extends Mock implements ViewModel {}
@@ -68,8 +70,19 @@ void main() {
     when(() => mock.countUp).thenReturn(123456789.toString());
     when(() => mock.countDown).thenReturn(123456789.toString());
 
+    final mockTitleProvider = Provider<String>((ref) {
+      return 'mockTitle';
+    });
+    final mockDescriptionProvider = Provider<String>((ref) {
+      return 'mockDescription';
+    });
+
     await tester.pumpWidgetBuilder(
       ProviderScope(
+        overrides: [
+          titleProvider.overrideWithProvider(mockTitleProvider),
+          descriptionProvider.overrideWithProvider(mockDescriptionProvider),
+        ],
         child: MyHomePage(
           mock,
         ),
