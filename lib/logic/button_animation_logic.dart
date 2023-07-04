@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/animation.dart';
 
 import '../data/count_data.dart';
@@ -24,8 +25,16 @@ class ButtonAnimationLogic extends CountDataChangedNotifier {
         .drive(Tween(begin: 1.0, end: 1.8));
 
     _animationRotation = _animationController
-        .drive(CurveTween(curve: const Interval(0.0, 0.7)))
-        .drive(Tween(begin: 0.0, end: 0.1));
+        .drive(
+          CurveTween(
+            curve: Interval(
+              0.4,
+              0.8,
+              curve: ButtonRotateCurve(),
+            ),
+          ),
+        )
+        .drive(Tween(begin: 0.0, end: 1.0));
   }
 
   @override
@@ -44,5 +53,12 @@ class ButtonAnimationLogic extends CountDataChangedNotifier {
     if (startCondition(oldData, newData)) {
       start();
     }
+  }
+}
+
+class ButtonRotateCurve extends Curve {
+  @override
+  double transform(double t) {
+    return math.sin(t);
   }
 }
