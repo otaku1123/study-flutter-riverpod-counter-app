@@ -86,6 +86,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
                   tooltip: 'Increment',
                   child: ButtonAnimation(
                     animationCombination: _viewModel.animationPlusCombination,
+                    child: const Icon(CupertinoIcons.plus),
                   ),
                 ),
                 FloatingActionButton(
@@ -93,9 +94,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
                     _viewModel.onDecrease();
                   },
                   tooltip: 'Decrement',
-                  child: ScaleTransition(
-                      scale: _viewModel.animationMinus,
-                      child: const Icon(CupertinoIcons.minus)),
+                  child: ButtonAnimation(
+                    animationCombination: _viewModel.animationMinusCombination,
+                    child: const Icon(CupertinoIcons.minus),
+                  ),
                 ),
               ],
             ),
@@ -118,8 +120,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
           _viewModel.onReset();
         },
         tooltip: 'Reset',
-        child: ScaleTransition(
-          scale: _viewModel.animationReset,
+        child: ButtonAnimation(
+          animationCombination: _viewModel.animationResetCombination,
           child: const Icon(CupertinoIcons.refresh),
         ),
       ),
@@ -129,10 +131,12 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
 
 class ButtonAnimation extends StatelessWidget {
   final AnimationCombination animationCombination;
+  final Widget child;
 
-  ButtonAnimation({
+  const ButtonAnimation({
     Key? key,
     required this.animationCombination,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -141,7 +145,7 @@ class ButtonAnimation extends StatelessWidget {
       scale: animationCombination.animationScale,
       child: RotationTransition(
         turns: animationCombination.animationRotation,
-        child: const Icon(CupertinoIcons.plus),
+        child: child,
       ),
     );
   }
