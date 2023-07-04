@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_app/data/count_data.dart';
 import 'package:riverpod_app/logic/button_animation_logic.dart';
 import 'package:riverpod_app/logic/logic.dart';
+import 'package:riverpod_app/logic/shared_preferences_logic.dart';
 import 'package:riverpod_app/provider.dart';
 import 'package:riverpod_app/logic/sound_logic.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'logic/count_data_changed_notifier.dart';
 
@@ -26,16 +28,21 @@ class ViewModel {
     conditionPlus(CountData oldData, CountData newData) {
       return oldData.count < newData.count;
     }
+
     conditionMinus(CountData oldData, CountData newData) {
       return oldData.count > newData.count;
     }
+
     conditionReset(CountData oldData, CountData newData) {
-      return newData.countUp ==0 && newData.countDown == 0;
+      return newData.countUp == 0 && newData.countDown == 0;
     }
 
-    _buttonAnimationLogicPlus = ButtonAnimationLogic(tickerProvider, conditionPlus);
-    _buttonAnimationLogicMinus = ButtonAnimationLogic(tickerProvider, conditionMinus);
-    _buttonAnimationLogicReset = ButtonAnimationLogic(tickerProvider, conditionReset);
+    _buttonAnimationLogicPlus =
+        ButtonAnimationLogic(tickerProvider, conditionPlus);
+    _buttonAnimationLogicMinus =
+        ButtonAnimationLogic(tickerProvider, conditionMinus);
+    _buttonAnimationLogicReset =
+        ButtonAnimationLogic(tickerProvider, conditionReset);
     _soundLogic.init();
 
     notifiers = [
@@ -43,7 +50,14 @@ class ViewModel {
       _buttonAnimationLogicPlus,
       _buttonAnimationLogicMinus,
       _buttonAnimationLogicReset,
+      SharedPreferencesLogic(),
     ];
+
+    SharedPreferencesLogic.read().then((value) {
+      _ref.read(countDataProvider.notifier).state = value;
+      _logic.init(value);
+      update();
+    });
   }
 
   void dispose() {
@@ -54,10 +68,12 @@ class ViewModel {
   get countUp => _ref.watch(countDataProvider).countUp.toString();
   get countDown => _ref.watch(countDataProvider).countDown.toString();
 
-  get animationPlusCombination => _buttonAnimationLogicPlus.animationCombination;
-  get animationMinusCombination => _buttonAnimationLogicMinus.animationCombination;
-  get animationResetCombination => _buttonAnimationLogicReset.animationCombination;
-
+  get animationPlusCombination =>
+      _buttonAnimationLogicPlus.animationCombination;
+  get animationMinusCombination =>
+      _buttonAnimationLogicMinus.animationCombination;
+  get animationResetCombination =>
+      _buttonAnimationLogicReset.animationCombination;
 
   void onIncrease() {
     _logic.increase();
