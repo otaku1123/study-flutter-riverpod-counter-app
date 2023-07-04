@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 
-import 'data/count_data.dart';
+import '../data/count_data.dart';
 
 class SoundLogic {
   static const SOUND_DATA_UP = 'sounds/sound1.mp3';

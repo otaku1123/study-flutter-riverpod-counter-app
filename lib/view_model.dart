@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_app/data/count_data.dart';
-import 'package:riverpod_app/logic.dart';
+import 'package:riverpod_app/logic/logic.dart';
 import 'package:riverpod_app/provider.dart';
-import 'package:riverpod_app/sound_logic.dart';
+import 'package:riverpod_app/logic/sound_logic.dart';
 
 class ViewModel {
   final Logic _logic = Logic();
