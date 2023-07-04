@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -31,10 +32,12 @@ void main() {
 
     List<Device> devices = [iPhone55];
 
+    ViewModel viewModel = ViewModel();
+
     await tester.pumpWidgetBuilder(
       ProviderScope(
         child: MyHomePage(
-          ViewModel(),
+          viewModel,
         ),
       ),
     );
@@ -42,6 +45,17 @@ void main() {
     await multiScreenGolden(
       tester,
       'myHomePage_init',
+      devices: devices,
+    );
+
+    await tester.tap(find.byIcon(CupertinoIcons.plus));
+    await tester.tap(find.byIcon(CupertinoIcons.plus));
+    await tester.tap(find.byIcon(CupertinoIcons.minus));
+    await tester.pump();
+
+    await multiScreenGolden(
+      tester,
+      'myHomePage_1tapped',
       devices: devices,
     );
   });
